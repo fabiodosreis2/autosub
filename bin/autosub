@@ -134,10 +134,10 @@ def which(program):
 def extract_audio(filename, channels=1, rate=16000):
     temp = tempfile.NamedTemporaryFile(suffix='.wav', delete=False)
     if not os.path.isfile(filename):
-        print "The given file does not exist: {0}".format(filename)
+        print("The given file does not exist: {0}".format(filename))
         raise Exception("Invalid filepath: {0}".format(filename))
     if not which("ffmpeg"):
-        print "ffmpeg: Executable not found on machine."
+        print("ffmpeg: Executable not found on machine.")
         raise Exception("Dependency not found: ffmpeg")
     command = ["ffmpeg", "-y", "-i", filename, "-ac", str(channels), "-ar", str(rate), "-loglevel", "error", temp.name]
     use_shell = True if os.name == "nt" else False
@@ -269,15 +269,15 @@ def main():
                     pbar.finish()
                     transcripts = translated_transcripts
                 else:
-                    print "Error: Subtitle translation requires specified Google Translate API key. \
-                    See --help for further information."
+                    print("Error: Subtitle translation requires specified Google Translate API key. \
+                    See --help for further information.")
                     return 1
 
         except KeyboardInterrupt:
             pbar.finish()
             pool.terminate()
             pool.join()
-            print "Cancelling transcription"
+            print("Cancelling transcription")
             return 1
 
     timed_subtitles = [(r, t) for r, t in zip(regions, transcripts) if t]
@@ -293,7 +293,7 @@ def main():
     with open(dest, 'wb') as f:
         f.write(formatted_subtitles.encode("utf-8"))
 
-    print "Subtitles file created at {}".format(dest)
+    print("Subtitles file created at {}".format(dest))
 
     os.remove(audio_filename)
 

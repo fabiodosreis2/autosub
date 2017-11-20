@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 import sys
 import json
 
@@ -23,19 +22,24 @@ def srt_formatter(subtitles, show_before=0, show_after=0):
         item.start.seconds = max(0, start - show_before)
         item.end.seconds = end + show_after
         f.append(item)
-    return '\n'.join(map(unicode, f))
+    return '\n'.join(map(str, f))
+
 
 def vtt_formatter(subtitles, show_before=0, show_after=0):
     text = srt_formatter(subtitles, show_before, show_after)
     text = 'WEBVTT\n\n' + text.replace(',', '.')
     return text
 
+
 def json_formatter(subtitles):
-    subtitle_dicts = map(lambda (r, t): {'start': r[0], 'end': r[1], 'content': t}, subtitles)
+    subtitle_dicts = list(map(
+        lambda s: {'start': s[0][0], 'end': s[0][1], 'content': s[1]}, subtitles))
     return json.dumps(subtitle_dicts)
 
+
 def raw_formatter(subtitles):
-    return ' '.join(map(lambda (rng, text): text, subtitles))
+    return ' '.join(map(lambda rng, text: text, subtitles))
+
 
 FORMATTERS = {
     'srt': srt_formatter,
