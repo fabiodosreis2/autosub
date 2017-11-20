@@ -194,7 +194,7 @@ def extract_audio(filename, channels=1, rate=16000):
     if not os.path.isfile(filename):
         print("The given file does not exist: {0}".format(filename))
         raise Exception("Invalid filepath: {0}".format(filename))
-    if not which("ffmpeg.exe"):
+    if not which("ffmpeg"):
         print("ffmpeg: Executable not found on machine.")
         raise Exception("Dependency not found: ffmpeg")
 
@@ -278,7 +278,7 @@ def init_tors(instance_count, retires=3):
 
 def deinit_tors():
     for proc in psutil.process_iter():
-        if proc.name() == 'tor.exe':
+        if proc.name() == 'tor':
             proc.kill()
 
 
